@@ -11,6 +11,7 @@ JavaScript client, and the plugin's hooks.
 - [REST API](#rest-api)
 - [JavaScript client](#javascript-client)
 - [Hooks and filters](#hooks-and-filters)
+- [Example child plugin](#example-child-plugin)
 - [Testing](#testing)
 
 ## Concepts
@@ -408,6 +409,52 @@ add_filter( 'option_ai_provider_jev_model', fn() => 'jev-preview' );
 > **masked** value (bullets + last four characters). Prefer a constant/env var
 > for the key, or read the real value through
 > `AiProviderForJev\Settings\SettingsManager::instance()->get_api_key()`.
+
+## Example child plugin
+
+A complete, copy-pasteable example lives at
+[`docs/examples/jev-comment-triage/`](examples/jev-comment-triage/jev-comment-triage.php).
+**Jev Comment Triage** auto-moderates new comments: it asks Jev for a spam
+probability (Noul) and a toxicity score (Score), then routes the comment and
+stores the scores as comment meta.
+
+It demonstrates the patterns you'll reuse in your own integrations:
+
+- **Depend on the provider** via the `Requires Plugins: ai-provider-for-jev`
+  header, and guard at runtime with `function_exists( 'AiProviderForJev\\evaluate' )`
+  plus `SettingsManager::instance()->is_configured()`.
+- **Batch questions** in a single `evaluate()` call.
+- **Fail open** — any `WP_Error` from the API leaves WordPress's own decision
+  untouched, so an outage never blocks commenting.
+- **Act on the numbers** with thresholds you control in code.
+
+The core of it:
+
+```php
+$scores = \AiProviderForJev\evaluate( $content, [
+	'is_spam'  => [ 'type' => 'noul', 'instructions' => 'Is this comment spam?' ],
+	'toxicity' => [
+		'type'         => 'score',
+		'instructions' => 'How toxic or abusive is this comment?',
+		'criteria'     => [ 'Civil', 'Rude', 'Abusive or hateful' ],
+	],
+] );
+
+if ( is_wp_error( $scores ) ) {
+	return $approved; // fail open
+}
+
+if ( $scores['answers']['is_spam']['noul'] > 0.85 ) {
+	return 'spam';
+}
+if ( $scores['answers']['toxicity']['score'] >= 1.5 ) {
+	return '0'; // hold for moderation
+}
+```
+
+To try it, copy the `jev-comment-triage` folder into `wp-content/plugins/`,
+activate **AI Provider for Jev** (configured with an API key), then activate
+**Jev Comment Triage**.
 
 ## Testing
 

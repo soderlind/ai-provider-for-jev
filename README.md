@@ -12,8 +12,8 @@ Connect WordPress to [TypeSafe](https://docs.typesafe.ai/introduction)'s **Jev**
 
 ## Requirements
 
-- WordPress 6.4+
-- PHP 8.1+
+- WordPress 6.8+
+- PHP 8.3+
 - A TypeSafe API key ([console.typesafe.ai](https://console.typesafe.ai/settings/keys))
 
 ## Installation

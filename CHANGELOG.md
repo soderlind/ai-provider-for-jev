@@ -14,5 +14,11 @@ All notable changes to this project are documented here. The format is based on
 - PHP helper API: `evaluate()`, `ask_noul()`, `ask_choice()`, `ask_score()`.
 - `JevClient` wrapping the TypeSafe `/systemone` and `/models` endpoints.
 - Authenticated REST proxy at `ai-provider-for-jev/v1/{systemone,models}` with a filterable capability gate.
+- Browser client (`src/js/client.js`) for the REST proxy.
+- Test suites: Pest with Brain Monkey (PHP) and Vitest (JavaScript).
+
+### Requirements
+
+- WordPress 6.8+ and PHP 8.3+.
 
 [0.1.0]: https://github.com/soderlind/ai-provider-for-jev/releases/tag/0.1.0

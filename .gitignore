@@ -5,6 +5,10 @@
 # Build artifacts
 /build/
 
+# Test coverage
+/coverage/
+/.phpunit.cache/
+
 # OS / editor
 .DS_Store
 Thumbs.db

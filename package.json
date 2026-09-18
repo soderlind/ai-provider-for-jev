@@ -1,0 +1,17 @@
+{
+	"name": "ai-provider-for-jev",
+	"version": "0.1.0",
+	"description": "Browser client and tests for the AI Provider for Jev REST proxy.",
+	"license": "GPL-2.0-or-later",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:coverage": "vitest run --coverage"
+	},
+	"devDependencies": {
+		"@vitest/coverage-v8": "^5.0.1",
+		"vitest": "^5.0.1"
+	}
+}

@@ -3,8 +3,8 @@
  * Plugin Name: AI Provider for Jev
  * Plugin URI:  https://github.com/soderlind/ai-provider-for-jev
  * Description: Connect WordPress to TypeSafe's Jev "System One" model for structured decisions (choice, score, noul).
- * Requires at least: 6.4
- * Requires PHP: 8.1
+ * Requires at least: 6.8
+ * Requires PHP: 8.3
  * Version: 0.1.0
  * Author: Per Søderlind
  * Author URI: https://soderlind.no/

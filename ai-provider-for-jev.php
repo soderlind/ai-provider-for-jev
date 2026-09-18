@@ -5,7 +5,7 @@
  * Description: Connect WordPress to TypeSafe's Jev "System One" model for structured decisions (choice, score, noul).
  * Requires at least: 6.8
  * Requires PHP: 8.3
- * Version: 0.1.0
+ * Version: 0.2.0
  * Author: Per Søderlind
  * Author URI: https://soderlind.no/
  * License: GPL-2.0-or-later
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	return;
 }
 
-define( 'AI_PROVIDER_FOR_JEV_VERSION', '0.1.0' );
+define( 'AI_PROVIDER_FOR_JEV_VERSION', '0.2.0' );
 define( 'AI_PROVIDER_FOR_JEV_FILE', __FILE__ );
 
 require_once __DIR__ . '/src/autoload.php';

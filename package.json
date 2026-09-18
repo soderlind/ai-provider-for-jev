@@ -1,6 +1,6 @@
 {
 	"name": "ai-provider-for-jev",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Browser client and tests for the AI Provider for Jev REST proxy.",
 	"license": "GPL-2.0-or-later",
 	"type": "module",

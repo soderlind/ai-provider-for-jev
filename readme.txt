@@ -4,7 +4,7 @@ Tags: ai, typesafe, jev, classification, structured-output
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,10 @@ $frustration = ask_score( $ticket, 'How frustrated is the customer?', [
 Each helper returns a `WP_Error` on failure.
 
 == Changelog ==
+
+= 0.2.0 =
+* Raised the minimum requirements to WordPress 6.8 and PHP 8.3.
+* Added a JavaScript REST client and Pest/Vitest test suites.
 
 = 0.1.0 =
 * Initial release: settings page, PHP helper API, and REST proxy for the Jev System One API.

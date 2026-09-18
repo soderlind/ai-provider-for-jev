@@ -456,6 +456,8 @@ To try it, copy the `jev-comment-triage` folder into `wp-content/plugins/`,
 activate **AI Provider for Jev** (configured with an API key), then activate
 **Jev Comment Triage**.
 
+See [Benchmark](benchmark.md) for its measured latency and production notes.
+
 ## Testing
 
 PHP tests use [Pest](https://pestphp.com/) with

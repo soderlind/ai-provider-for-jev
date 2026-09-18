@@ -1,0 +1,13 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# Build artifacts
+/build/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Composer
+composer.lock

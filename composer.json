@@ -1,0 +1,21 @@
+{
+	"name": "soderlind/ai-provider-for-jev",
+	"description": "Connect WordPress to TypeSafe's Jev System One model for structured decisions.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=8.1"
+	},
+	"autoload": {
+		"psr-4": {
+			"AiProviderForJev\\": "src/"
+		},
+		"files": [
+			"src/api.php"
+		]
+	},
+	"config": {
+		"optimize-autoloader": true,
+		"sort-packages": true
+	}
+}

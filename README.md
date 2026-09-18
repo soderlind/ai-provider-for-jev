@@ -38,65 +38,21 @@ Define secrets in `wp-config.php` to keep them out of the database:
 define( 'TYPESAFE_API_KEY', 'sk-...' );
 ```
 
-## PHP usage
+## Usage
+
+Call Jev from PHP with the helper API:
 
 ```php
 use function AiProviderForJev\ask_noul;
-use function AiProviderForJev\ask_choice;
-use function AiProviderForJev\ask_score;
-use function AiProviderForJev\evaluate;
 
-$ticket = "Help! My payouts have been failing for 3 days.";
-
-// Noul — probability the answer is "yes" (0..1).
-$urgent = ask_noul( $ticket, 'Does this message express urgency?' );
-
-// Choice — pick one option, with a probability distribution.
-$dept = ask_choice( $ticket, 'Which team should handle this?', [
-	'billing'   => 'Payment or subscription issues',
-	'technical' => 'Bugs or integration problems',
-	'sales'     => 'Pricing or account questions',
-] );
-// $dept['choice'], $dept['probabilities'], $dept['confidence']
-
-// Score — rate against an ordered rubric.
-$frustration = ask_score( $ticket, 'How frustrated is the customer?', [
-	'Calm', 'Frustrated', 'Very angry',
-] );
-// $frustration['score'], $frustration['legend'], $frustration['probabilities'], $frustration['confidence']
+$urgent = ask_noul( 'Help! My payouts have failed for 3 days.', 'Does this express urgency?' );
+// 0.0–1.0, or a WP_Error on failure
 ```
 
-Ask several questions in one call with `evaluate()`:
-
-```php
-$response = evaluate( $ticket, [
-	'is_urgent'   => [ 'type' => 'noul',  'instructions' => 'Does this convey urgency?' ],
-	'frustration' => [ 'type' => 'score', 'instructions' => 'How frustrated is the customer?', 'criteria' => [ 'Calm', 'Frustrated', 'Very angry' ] ],
-] );
-// $response['answers']['is_urgent']['noul'], ...
-```
-
-Every helper returns a [`WP_Error`](https://developer.wordpress.org/reference/classes/wp_error/) on failure:
-
-```php
-$urgent = ask_noul( $ticket, 'Does this message express urgency?' );
-if ( is_wp_error( $urgent ) ) {
-	error_log( $urgent->get_error_message() );
-}
-```
-
-## REST API
-
-An authenticated proxy (uses the site's stored API key) is available for JS/front-end code:
-
-- `POST /wp-json/ai-provider-for-jev/v1/systemone` — body `{ state, questions, model? }`
-- `GET  /wp-json/ai-provider-for-jev/v1/models`
-
-Access defaults to the `manage_options` capability. Filter it:
-
-```php
-add_filter( 'ai_provider_jev_rest_capability', fn() => 'edit_posts' );
-```
+There is also `ask_choice()`, `ask_score()`, `evaluate()` (many questions at
+once), a `JevClient` class, an authenticated REST proxy, and a JavaScript
+client. See the **[Developer guide](docs/developer.md)** for the full API,
+REST endpoints, and hooks.
 
 ## Links
 

@@ -31,12 +31,28 @@ Values resolve from the settings page first, then fall back to constants/environ
 | API key      | API Key        | `TYPESAFE_API_KEY`  | —                              |
 | Model        | Model          | `TYPESAFE_MODEL`    | `jev-latest`                   |
 | API base URL | API Base URL   | `TYPESAFE_ENDPOINT` | `https://api.typesafe.ai/v1`   |
+| Decisions path | Decisions Path | `TYPESAFE_DECISIONS_PATH` | `/systemone` |
 
 Define secrets in `wp-config.php` to keep them out of the database:
 
 ```php
 define( 'TYPESAFE_API_KEY', 'sk-...' );
 ```
+
+### Using OpenRouter instead of TypeSafe directly
+
+The plugin can also talk to Jev through [OpenRouter](https://openrouter.ai/~typesafe/jev-latest),
+which proxies the same System One decisions API. Set:
+
+| Setting        | Value                                          |
+| -------------- | ----------------------------------------------- |
+| API key        | Your OpenRouter key (or `OPENROUTER_API_KEY`)   |
+| API base URL   | `https://openrouter.ai/api/alpha`               |
+| Decisions path | `/decisions`                                    |
+| Model          | `~typesafe/jev-latest`                          |
+
+When the base URL points at `openrouter.ai`, the plugin automatically adds the
+optional `HTTP-Referer`/`X-Title` headers OpenRouter uses for its app leaderboards.
 
 ## Usage
 

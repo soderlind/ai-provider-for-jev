@@ -54,16 +54,47 @@ class JevClient {
 			'questions' => $questions,
 		];
 
-		return $this->request( 'POST', '/systemone', $body );
+		return $this->request( 'POST', $this->settings->get_decisions_path(), $body );
 	}
 
 	/**
 	 * List the models available to the configured account.
 	 *
+	 * Not all providers expose a models-list endpoint (OpenRouter's alpha
+	 * decisions API does not), so prefer test_connection() for a health check.
+	 *
 	 * @return array<string, mixed>|WP_Error Decoded response body, or error.
 	 */
 	public function list_models(): array|WP_Error {
 		return $this->request( 'GET', '/models' );
+	}
+
+	/**
+	 * Verify the configured credentials/endpoint by issuing a minimal,
+	 * inexpensive decision request. Works for both TypeSafe and OpenRouter.
+	 *
+	 * @return true|WP_Error True on success, or the API error.
+	 */
+	public function test_connection(): true|WP_Error {
+		$result = $this->system_one(
+			'ping',
+			[
+				'ok' => [
+					'type'         => 'noul',
+					'instructions' => 'Answer yes.',
+					'criteria'     => [
+						'true'  => 'Always',
+						'false' => 'Never',
+					],
+				],
+			]
+		);
+
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		return true;
 	}
 
 	/**
@@ -83,15 +114,24 @@ class JevClient {
 			);
 		}
 
-		$url  = $this->settings->get_endpoint() . '/' . ltrim( $path, '/' );
+		$endpoint = $this->settings->get_endpoint();
+		$url      = $endpoint . '/' . ltrim( $path, '/' );
+		$headers  = [
+			'Authorization' => 'Bearer ' . $api_key,
+			'Content-Type'  => 'application/json',
+			'Accept'        => 'application/json',
+		];
+
+		// OpenRouter uses these optional headers for its app leaderboards.
+		if ( str_contains( $endpoint, 'openrouter.ai' ) ) {
+			$headers['HTTP-Referer'] = home_url( '/' );
+			$headers['X-Title']      = get_bloginfo( 'name' );
+		}
+
 		$args = [
 			'method'  => $method,
 			'timeout' => self::TIMEOUT,
-			'headers' => [
-				'Authorization' => 'Bearer ' . $api_key,
-				'Content-Type'  => 'application/json',
-				'Accept'        => 'application/json',
-			],
+			'headers' => $headers,
 		];
 
 		if ( null !== $body ) {

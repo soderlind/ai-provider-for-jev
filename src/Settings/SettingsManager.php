@@ -16,8 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class SettingsManager {
 
-	public const DEFAULT_ENDPOINT = 'https://api.typesafe.ai/v1';
-	public const DEFAULT_MODEL    = 'jev-latest';
+	public const DEFAULT_ENDPOINT       = 'https://api.typesafe.ai/v1';
+	public const DEFAULT_MODEL          = 'jev-latest';
+	public const DEFAULT_DECISIONS_PATH = '/systemone';
 
 	private static ?self $instance = null;
 
@@ -38,7 +39,32 @@ class SettingsManager {
 			return $key;
 		}
 
-		return $this->resolve_env( 'TYPESAFE_API_KEY' );
+		$key = $this->resolve_env( 'TYPESAFE_API_KEY' );
+		if ( '' !== $key ) {
+			return $key;
+		}
+
+		// Support an OpenRouter-issued key when the endpoint points at OpenRouter.
+		return $this->resolve_env( 'OPENROUTER_API_KEY' );
+	}
+
+	/**
+	 * Get the path appended to the base URL for decision requests.
+	 *
+	 * Fallback chain: option → TYPESAFE_DECISIONS_PATH env/constant → /systemone.
+	 */
+	public function get_decisions_path(): string {
+		$value = get_option( Settings::OPTION_DECISIONS_PATH, '' );
+		if ( is_string( $value ) && '' !== $value ) {
+			return '/' . ltrim( $value, '/' );
+		}
+
+		$env = $this->resolve_env( 'TYPESAFE_DECISIONS_PATH' );
+		if ( '' !== $env ) {
+			return '/' . ltrim( $env, '/' );
+		}
+
+		return self::DEFAULT_DECISIONS_PATH;
 	}
 
 	/**

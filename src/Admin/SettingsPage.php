@@ -50,10 +50,16 @@ class SettingsPage {
 			<p>
 				<?php
 				printf(
-					/* translators: %s: link to the TypeSafe docs. */
-					esc_html__( 'Connect WordPress to TypeSafe\'s Jev System One model. %s', 'ai-provider-for-jev' ),
-					'<a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noreferrer noopener">' . esc_html__( 'Documentation', 'ai-provider-for-jev' ) . '</a>'
+					/* translators: 1: TypeSafe docs link, 2: OpenRouter docs link. */
+					esc_html__( 'Connect WordPress to the Jev System One decision model, via TypeSafe (%1$s) or OpenRouter (%2$s).', 'ai-provider-for-jev' ),
+					'<a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noreferrer noopener">' . esc_html__( 'docs', 'ai-provider-for-jev' ) . '</a>',
+					'<a href="https://openrouter.ai/~typesafe/jev-latest" target="_blank" rel="noreferrer noopener">' . esc_html__( 'docs', 'ai-provider-for-jev' ) . '</a>'
 				);
+				?>
+			</p>
+			<p class="description">
+				<?php
+				esc_html_e( 'For OpenRouter, set Base URL to https://openrouter.ai/api/alpha, Decisions Path to /decisions, and Model to ~typesafe/jev-latest.', 'ai-provider-for-jev' );
 				?>
 			</p>
 
@@ -122,6 +128,26 @@ class SettingsPage {
 							</p>
 						</td>
 					</tr>
+					<tr>
+						<th scope="row">
+							<label for="<?php echo esc_attr( Settings::OPTION_DECISIONS_PATH ); ?>">
+								<?php echo esc_html__( 'Decisions Path', 'ai-provider-for-jev' ); ?>
+							</label>
+						</th>
+						<td>
+							<input
+								type="text"
+								class="regular-text"
+								id="<?php echo esc_attr( Settings::OPTION_DECISIONS_PATH ); ?>"
+								name="<?php echo esc_attr( Settings::OPTION_DECISIONS_PATH ); ?>"
+								value="<?php echo esc_attr( get_option( Settings::OPTION_DECISIONS_PATH, '' ) ); ?>"
+								placeholder="<?php echo esc_attr( SettingsManager::DEFAULT_DECISIONS_PATH ); ?>"
+							/>
+							<p class="description">
+								<?php echo esc_html__( 'Use /systemone for TypeSafe or /decisions for OpenRouter.', 'ai-provider-for-jev' ); ?>
+							</p>
+						</td>
+					</tr>
 				</table>
 				<?php submit_button(); ?>
 			</form>
@@ -157,7 +183,7 @@ class SettingsPage {
 			return;
 		}
 
-		$result = ( new JevClient( $settings ) )->list_models();
+		$result = ( new JevClient( $settings ) )->test_connection();
 
 		if ( is_wp_error( $result ) ) {
 			printf(

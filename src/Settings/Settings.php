@@ -18,9 +18,10 @@ class Settings {
 
 	public const SETTINGS_GROUP = 'ai_provider_jev';
 
-	public const OPTION_API_KEY  = 'ai_provider_jev_api_key';
-	public const OPTION_MODEL    = 'ai_provider_jev_model';
-	public const OPTION_ENDPOINT = 'ai_provider_jev_endpoint';
+	public const OPTION_API_KEY        = 'ai_provider_jev_api_key';
+	public const OPTION_MODEL          = 'ai_provider_jev_model';
+	public const OPTION_ENDPOINT       = 'ai_provider_jev_endpoint';
+	public const OPTION_DECISIONS_PATH = 'ai_provider_jev_decisions_path';
 
 	/**
 	 * Bullet character used to mask stored API keys.
@@ -64,10 +65,23 @@ class Settings {
 			[
 				'type'              => 'string',
 				'label'             => __( 'API Base URL', 'ai-provider-for-jev' ),
-				'description'       => __( 'TypeSafe API base URL (default https://api.typesafe.ai/v1).', 'ai-provider-for-jev' ),
+				'description'       => __( 'Base URL of the provider (TypeSafe or OpenRouter).', 'ai-provider-for-jev' ),
 				'default'           => '',
 				'show_in_rest'      => false,
 				'sanitize_callback' => 'esc_url_raw',
+			]
+		);
+
+		register_setting(
+			self::SETTINGS_GROUP,
+			self::OPTION_DECISIONS_PATH,
+			[
+				'type'              => 'string',
+				'label'             => __( 'Decisions Path', 'ai-provider-for-jev' ),
+				'description'       => __( 'Path appended to the base URL for decision requests (e.g. /systemone for TypeSafe, /decisions for OpenRouter).', 'ai-provider-for-jev' ),
+				'default'           => '',
+				'show_in_rest'      => false,
+				'sanitize_callback' => 'sanitize_text_field',
 			]
 		);
 	}

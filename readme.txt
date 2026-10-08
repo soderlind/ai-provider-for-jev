@@ -4,7 +4,7 @@ Tags: ai, typesafe, jev, classification, structured-output
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 0.2.0
+Stable tag: 1.0.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,13 @@ $frustration = ask_score( $ticket, 'How frustrated is the customer?', [
 Each helper returns a `WP_Error` on failure.
 
 == Changelog ==
+
+= 1.0.0 =
+* Self-updates from GitHub releases, checked every 6 hours.
+* GitHub Actions run the PHP and JavaScript tests, and build and attach the release zip.
+* The release zip ships only runtime files.
+* Added a developer guide, benchmark results, and an example child plugin.
+* Installation now uses the downloadable release zip.
 
 = 0.2.0 =
 * Raised the minimum requirements to WordPress 6.8 and PHP 8.3.

@@ -4,11 +4,12 @@
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
 	"require": {
-		"php": ">=8.3"
+		"php": ">=8.3",
+		"soderlind/wordpress-github-updater": "^2.0"
 	},
 	"require-dev": {
 		"brain/monkey": "^2.7",
-		"pestphp/pest": "^5.0"
+		"pestphp/pest": "^4.0"
 	},
 	"autoload": {
 		"psr-4": {
@@ -22,6 +23,9 @@
 	"config": {
 		"optimize-autoloader": true,
 		"sort-packages": true,
+		"platform": {
+			"php": "8.3.0"
+		},
 		"allow-plugins": {
 			"pestphp/pest-plugin": true
 		}

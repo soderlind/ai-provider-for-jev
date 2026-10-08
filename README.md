@@ -18,9 +18,12 @@ Connect WordPress to [TypeSafe](https://docs.typesafe.ai/introduction)'s **Jev**
 
 ## Installation
 
-1. Copy this folder to `wp-content/plugins/ai-provider-for-jev`.
-2. Activate **AI Provider for Jev** in Plugins.
-3. Go to **Settings → Jev (TypeSafe)** and enter your API key, then click **Test connection**.
+1. Download the latest
+   [`ai-provider-for-jev.zip`](https://github.com/soderlind/ai-provider-for-jev/releases/latest/download/ai-provider-for-jev.zip).
+2. In WordPress, go to **Plugins → Add New Plugin → Upload Plugin**, select the
+   downloaded ZIP, and choose **Install Now**.
+3. Activate **AI Provider for Jev** in Plugins.
+4. Go to **Settings → Jev (TypeSafe)** and enter your API key, then click **Test connection**.
 
 ## Configuration
 
